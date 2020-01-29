@@ -14,8 +14,8 @@
 from getch import getch,pause
 from copy import deepcopy
 import os
-p1 = "p1"
-p2 = "p2"
+p1 = input("プレイヤーの名前を入力:")
+p2 = input("プレイヤーの名前を入力:")
 winner = ""
 board = [[" "," "," "] for x in range(3)]
 players = [p1,p2]
@@ -43,6 +43,26 @@ masks = [
             [" "," ","X"],
             [" ","X"," "],
             ["X"," "," "]
+        ],
+        [
+            [" ","X"," "],
+            [" ","X"," "],
+            [" ","X"," "]
+        ],
+        [
+            [" "," ","X"],
+            [" "," ","X"],
+            [" "," ","X"]
+        ],
+        [
+            [" "," "," "],
+            ["x","x","X"],
+            [" "," "," "]
+        ],
+        [
+            [" "," "," "],
+            [" "," "," "],
+            ["X","X","X"]
         ]
     ],
     [
@@ -65,6 +85,26 @@ masks = [
             [" "," ","O"],
             [" ","O"," "],
             ["O"," "," "]
+        ],
+        [
+            [" ","O"," "],
+            [" ","O"," "],
+            [" ","O"," "]
+        ],
+        [
+            [" "," ","O"],
+            [" "," ","O"],
+            [" "," ","O"]
+        ],
+        [
+            [" "," "," "],
+            ["O","O","O"],
+            [" "," "," "]
+        ],
+        [
+            [" "," "," "],
+            [" "," "," "],
+            ["O","O","O"]
         ]
     ]
 ]
@@ -112,24 +152,27 @@ while winner == "":
         else:
             print("無効な入力")
     elif key == 13:
-        board[pointer[0]][pointer[1]] = playerMark[nowPlayer]
-        #勝敗判定
-        #ボードから抽出する
-        tmpBoard = [["@","@","@"] for i in range(len(board))]
-        for m in masks[nowPlayer]:
-            for i in range(len(m)):
-                for j in range(len(m[i])):
-                    if board[i][j] == m[i][j]:
-                        tmpBoard[i][j] = board[i][j]
-                    else:
-                        tmpBoard[i][j] = " "
-            #printBoard(tmpBoard)
-            if tmpBoard == m:
-                winner = players[nowPlayer]
-                print(winner + "さんの勝ちです。")
-        #プレイヤー交換
-        if nowPlayer == 0: nowPlayer = 1
-        else: nowPlayer = 0
+        if board[pointer[0]][pointer[1]] == " ":
+            board[pointer[0]][pointer[1]] = playerMark[nowPlayer]
+            #勝敗判定
+            #ボードから抽出する
+            tmpBoard = [["@","@","@"] for i in range(len(board))]
+            for m in masks[nowPlayer]:
+                for i in range(len(m)):
+                    for j in range(len(m[i])):
+                        if board[i][j] == m[i][j]:
+                            tmpBoard[i][j] = board[i][j]
+                        else:
+                            tmpBoard[i][j] = " "
+                #printBoard(tmpBoard)
+                if tmpBoard == m:
+                    winner = players[nowPlayer]
+                    print(winner + "さんの勝ちです。")
+                #プレイヤー交換
+            if nowPlayer == 0: nowPlayer = 1
+            else: nowPlayer = 0
+        else:
+            print("無効な位置です。")
     if winner == "":
         print(players[nowPlayer] + "さんのターンです。")
         printBoard(board,pointer)
